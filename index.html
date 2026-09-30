@@ -7,7 +7,551 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/styles.css" />
+  <style>
+:root {
+  --bg: #101214;
+  --bg-panel: #181b1f;
+  --bg-elev: #20242a;
+  --bg-hover: #272c33;
+  --border: #2e343d;
+  --border-strong: #3a414c;
+  --text: #e6e1d5;
+  --text-dim: #9aa0a8;
+  --text-faint: #6b7280;
+  --accent: #c69c6d;
+  --accent-strong: #e0b989;
+  --green: #7cb88a;
+  --red: #d97777;
+  --blue: #7aa2c2;
+  --purple: #b39bc4;
+  --gold: #d8b66a;
+  --radius: 10px;
+  --radius-sm: 6px;
+  --shadow: 0 6px 24px rgba(0, 0, 0, 0.4);
+  --font-body: "Inter", system-ui, sans-serif;
+  --font-serif: "IM Fell English", Georgia, serif;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background:
+    radial-gradient(1200px 600px at 50% -10%, rgba(198, 156, 109, 0.06), transparent 60%),
+    var(--bg);
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+input, select, textarea {
+  font-family: inherit;
+  color: var(--text);
+}
+
+/* Header */
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: rgba(16, 18, 20, 0.9);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border);
+}
+.app-header__inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.brand {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  background: none;
+  border: none;
+  color: var(--text);
+  padding: 0;
+}
+.brand__logo { font-size: 22px; color: var(--accent); }
+.brand__text {
+  font-family: var(--font-serif);
+  font-size: 20px;
+  letter-spacing: 2px;
+  color: var(--accent-strong);
+}
+.brand__sub { font-size: 12px; color: var(--text-dim); letter-spacing: 0.5px; }
+.app-header__nav { display: flex; gap: 8px; margin-left: auto; }
+.nav-btn {
+  background: none;
+  border: 1px solid transparent;
+  color: var(--text-dim);
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+}
+.nav-btn:hover { color: var(--text); background: var(--bg-elev); }
+.nav-btn.active { color: var(--accent-strong); border-color: var(--border-strong); background: var(--bg-elev); }
+
+.app {
+  flex: 1;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 24px 20px 48px;
+}
+
+.app-footer {
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-faint);
+  padding: 20px;
+  border-top: 1px solid var(--border);
+}
+
+/* Generic components */
+.panel {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+  box-shadow: var(--shadow);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-elev);
+  border: 1px solid var(--border-strong);
+  color: var(--text);
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 500;
+  transition: background 0.12s, border-color 0.12s, transform 0.05s;
+}
+.btn:hover { background: var(--bg-hover); border-color: var(--text-faint); }
+.btn:active { transform: translateY(1px); }
+.btn--primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #1a140e;
+}
+.btn--primary:hover { background: var(--accent-strong); border-color: var(--accent-strong); }
+.btn--danger { border-color: transparent; color: var(--red); }
+.btn--danger:hover { background: rgba(217, 119, 119, 0.12); border-color: rgba(217, 119, 119, 0.4); }
+.btn--ghost { background: none; }
+.btn--sm { padding: 4px 8px; font-size: 12.5px; }
+
+.icon-btn {
+  background: var(--bg-elev);
+  border: 1px solid var(--border-strong);
+  color: var(--text-dim);
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  line-height: 1;
+}
+.icon-btn:hover { color: var(--text); background: var(--bg-hover); }
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.field label {
+  font-size: 12px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+.field input, .field select, .field textarea {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+  font-size: 14px;
+  color: var(--text);
+}
+.field input:focus, .field select:focus, .field textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+.field input[type="number"] { -moz-appearance: textfield; }
+.field input[type="number"]::-webkit-inner-spin-button,
+.field input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+
+/* Character list */
+.list-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+.list-head h1 { font-family: var(--font-serif); font-size: 28px; margin: 0; color: var(--text); }
+.list-head .actions { display: flex; gap: 10px; flex-wrap: wrap; }
+
+.grid-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+.char-card {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  cursor: pointer;
+  transition: border-color 0.12s, transform 0.08s;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.char-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+.char-card__name { font-family: var(--font-serif); font-size: 20px; color: var(--text); }
+.char-card__meta { font-size: 13px; color: var(--text-dim); }
+.char-card__stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  font-size: 12px;
+}
+.char-card__stat { background: var(--bg-elev); border-radius: var(--radius-sm); padding: 6px; text-align: center; }
+.char-card__stat b { display: block; font-size: 15px; color: var(--accent-strong); }
+.char-card__stat span { color: var(--text-dim); }
+.char-card__actions { display: flex; gap: 6px; margin-top: auto; }
+.char-card__actions .icon-btn { margin-left: auto; }
+
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-dim);
+}
+.empty-state h2 { font-family: var(--font-serif); font-size: 24px; margin: 0 0 8px; color: var(--text); }
+.empty-state p { margin: 0 0 20px; }
+
+/* Sheet */
+.sheet-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+.sheet-toolbar .back { margin-right: auto; }
+.sheet-title { font-family: var(--font-serif); font-size: 26px; margin: 0; }
+
+.sheet-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+@media (min-width: 900px) {
+  .sheet-grid { grid-template-columns: 320px 1fr; }
+  .sheet-grid--cols { grid-template-columns: 320px 1fr; }
+}
+
+.sheet-section-title {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  margin: 0 0 12px;
+  color: var(--accent-strong);
+  letter-spacing: 1px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 6px;
+}
+
+.identity-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.identity-grid .full { grid-column: 1 / -1; }
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.stat-box {
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.12s;
+}
+.stat-box:hover { border-color: var(--accent); }
+.stat-box__label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-dim); }
+.stat-box__value { font-size: 26px; font-weight: 700; color: var(--text); font-variant-numeric: tabular-nums; }
+.stat-box__half { font-size: 12px; color: var(--text-dim); }
+.stat-box__fifth { font-size: 11px; color: var(--text-faint); }
+.stat-box__value-input {
+  width: 100%;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  text-align: center;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--text);
+  padding: 2px 0;
+  font-variant-numeric: tabular-nums;
+}
+.stat-box__value-input:hover { border-color: var(--border); }
+.stat-box__value-input:focus { outline: none; border-color: var(--accent); background: var(--bg); }
+
+.sheet-title {
+  font-family: var(--font-serif);
+  font-size: 26px;
+  margin: 0;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  padding: 4px 8px;
+  min-width: 220px;
+}
+.sheet-title:hover { border-color: var(--border); }
+.sheet-title:focus { outline: none; border-color: var(--accent); background: var(--bg); }
+
+.derived-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+.derived-box {
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px;
+}
+.derived-box__label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.6px; color: var(--text-dim); }
+.derived-box__value { font-size: 20px; font-weight: 700; }
+.derived-box__sub { font-size: 12px; color: var(--text-dim); }
+
+/* Trackable resources */
+.track-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+}
+.track-row:last-child { border-bottom: none; }
+.track-row__label { flex: 1; font-size: 14px; }
+.track-row__label small { color: var(--text-dim); }
+.track-controls { display: flex; align-items: center; gap: 6px; }
+.track-value {
+  min-width: 60px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.track-value.low { color: var(--red); }
+.track-value.zero { color: var(--red); font-weight: 700; }
+
+/* Skill table */
+.skill-filters {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.search-input {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 9px 12px;
+  font-size: 14px;
+  width: 100%;
+}
+.search-input:focus { outline: none; border-color: var(--accent); }
+.tag-row { display: flex; gap: 6px; flex-wrap: wrap; }
+.tag {
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-size: 12.5px;
+  cursor: pointer;
+}
+.tag:hover { color: var(--text); }
+.tag.active { background: var(--accent); border-color: var(--accent); color: #1a140e; }
+
+.skill-list { display: flex; flex-direction: column; }
+.skill-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 10px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+.skill-row:hover { background: var(--bg-elev); }
+.skill-row__name { flex: 1; font-size: 14px; }
+.skill-row__base { font-size: 12px; color: var(--text-faint); width: 34px; text-align: right; }
+.skill-row__value {
+  font-weight: 600;
+  min-width: 34px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  color: var(--accent-strong);
+}
+.skill-row__input {
+  width: 52px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 3px 6px;
+  font-size: 13px;
+  text-align: right;
+}
+
+/* Roll panel */
+.roll-panel { display: flex; flex-direction: column; gap: 16px; }
+.roll-results {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 420px;
+  overflow-y: auto;
+}
+.roll-result {
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+}
+.roll-result.fumble { border-left-color: var(--red); }
+.roll-result.critical { border-left-color: var(--gold); }
+.roll-result.extreme { border-left-color: var(--purple); }
+.roll-result.hard { border-left-color: var(--blue); }
+.roll-result.success { border-left-color: var(--green); }
+.roll-result.fail { border-left-color: var(--text-faint); }
+.roll-result__head { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; }
+.roll-result__label { font-weight: 600; font-size: 14px; }
+.roll-result__grade { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; }
+.roll-result__detail { font-size: 13px; color: var(--text-dim); margin-top: 4px; }
+.roll-result__dice { font-size: 13px; color: var(--text-dim); }
+
+/* Dice roller quick */
+.dice-quick { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.dice-quick label { font-size: 13px; color: var(--text-dim); }
+.dice-quick input {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 5px 8px;
+  font-size: 13px;
+  color: var(--text);
+}
+
+.panel textarea {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px;
+  font-size: 14px;
+  color: var(--text);
+  resize: vertical;
+  min-height: 70px;
+}
+.panel textarea:focus { outline: none; border-color: var(--accent); }
+
+.bonus-toggle { display: flex; gap: 6px; }
+
+/* Modal */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 20px;
+}
+.modal {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  padding: 22px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: var(--shadow);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+.modal h2 { font-family: var(--font-serif); margin: 0 0 16px; }
+.modal .actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 18px; }
+
+/* Toast */
+.toast-root {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 200;
+}
+.toast {
+  background: var(--bg-elev);
+  border: 1px solid var(--border-strong);
+  border-left: 4px solid var(--accent);
+  border-radius: var(--radius-sm);
+  padding: 12px 16px;
+  font-size: 14px;
+  box-shadow: var(--shadow);
+  animation: slideIn 0.2s ease;
+}
+.toast.error { border-left-color: var(--red); }
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+/* Layout helpers */
+.split { display: grid; grid-template-columns: 1fr; gap: 16px; }
+@media (min-width: 900px) { .split { grid-template-columns: 1fr 380px; } }
+.col { display: flex; flex-direction: column; gap: 16px; }
+.mt { margin-top: 8px; }
+.row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.spacer { flex: 1; }
+.text-dim { color: var(--text-dim); }
+.text-faint { color: var(--text-faint); }
+.mono { font-variant-numeric: tabular-nums; }
+
+</style>
 </head>
 <body>
   <header class="app-header">
@@ -32,6 +576,1618 @@
   <div id="modal-root"></div>
   <div id="toast-root" class="toast-root"></div>
 
-  <script type="module" src="js/app.js"></script>
+  <script>
+const __mods = {};
+
+__mods["js/core/storage.js"] = (function() {
+// Character persistence via localStorage with JSON export/import.
+
+const STORAGE_KEY = 'cococh.characters.v1';
+
+function loadCharacters() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch (e) {
+    console.warn('Failed to load characters', e);
+    return [];
+  }
+}
+
+function saveCharacters(characters) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(characters));
+}
+
+function getCharacter(id) {
+  return loadCharacters().find((c) => c.id === id) || null;
+}
+
+function upsertCharacter(character) {
+  const list = loadCharacters();
+  const idx = list.findIndex((c) => c.id === character.id);
+  character.updatedAt = Date.now();
+  if (idx === -1) {
+    list.unshift(character);
+  } else {
+    list[idx] = character;
+  }
+  saveCharacters(list);
+  return character;
+}
+
+function deleteCharacter(id) {
+  const list = loadCharacters().filter((c) => c.id !== id);
+  saveCharacters(list);
+  return list;
+}
+
+function duplicateCharacter(id) {
+  const list = loadCharacters();
+  const src = list.find((c) => c.id === id);
+  if (!src) return null;
+  const copy = JSON.parse(JSON.stringify(src));
+  copy.id = 'c' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+  copy.name = copy.name + ' (Copy)';
+  copy.createdAt = Date.now();
+  copy.updatedAt = Date.now();
+  list.unshift(copy);
+  saveCharacters(list);
+  return copy;
+}
+
+// Export all characters to a JSON file.
+function exportCharacters() {
+  const list = loadCharacters();
+  const data = { app: 'COCOCH', version: 1, exportedAt: new Date().toISOString(), characters: list };
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `cococh-characters-${new Date().toISOString().slice(0, 10)}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+// Import characters from a JSON file. Returns { added, skipped }.
+async function importCharacters(file) {
+  const text = await file.text();
+  const data = JSON.parse(text);
+  let incoming = [];
+  if (Array.isArray(data)) incoming = data;
+  else if (data && Array.isArray(data.characters)) incoming = data.characters;
+  else throw new Error('Unrecognized file format');
+
+  const list = loadCharacters();
+  let added = 0;
+  let skipped = 0;
+  for (const c of incoming) {
+    if (!c || typeof c !== 'object' || !c.name || !c.characteristics) {
+      skipped++;
+      continue;
+    }
+    const id = c.id || 'c' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+    if (list.some((x) => x.id === id)) {
+      // Remap id to avoid collisions.
+      c.id = 'c' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+    } else {
+      c.id = id;
+    }
+    c.updatedAt = Date.now();
+    list.unshift(c);
+    added++;
+  }
+  saveCharacters(list);
+  return { added, skipped };
+}
+
+return { loadCharacters, saveCharacters, getCharacter, upsertCharacter, deleteCharacter, duplicateCharacter, exportCharacters, importCharacters };
+})();
+
+__mods["js/core/dice.js"] = (function() {
+// Core dice utilities for Call of Cthulhu 7th edition.
+
+function rollDie(sides) {
+  return Math.floor(Math.random() * sides) + 1;
+}
+
+// Rolls `count` dice of `sides` sides. Returns { total, dice }.
+function rollDice(count, sides) {
+  const dice = [];
+  let total = 0;
+  for (let i = 0; i < count; i++) {
+    const d = rollDie(sides);
+    dice.push(d);
+    total += d;
+  }
+  return { total, dice };
+}
+
+// Roll a d100 (units + tens).
+function rollD100() {
+  const units = rollDie(10);
+  const tens = rollDie(10) - 1; // 0-9 for tens
+  // A roll of 0 on both dice is 100.
+  let result = tens * 10 + units;
+  if (result === 0) result = 100;
+  return result;
+}
+
+// Bonus/penalty dice (7e): roll an extra tens die, take best (bonus) or worst (penalty).
+function rollD100WithPenalty(bonusDice) {
+  // bonusDice > 0 => bonus (take lowest tens), < 0 => penalty (take highest tens)
+  const count = Math.abs(bonusDice);
+  const units = rollDie(10);
+  const tensOptions = [];
+  for (let i = 0; i <= count; i++) {
+    tensOptions.push(rollDie(10) - 1);
+  }
+  let tens;
+  if (bonusDice > 0) {
+    tens = Math.min(...tensOptions);
+  } else if (bonusDice < 0) {
+    tens = Math.max(...tensOptions);
+  } else {
+    tens = tensOptions[0];
+  }
+  let result = tens * 10 + units;
+  if (result === 0) result = 100;
+  return { result, tensOptions, units };
+}
+
+// Grade a d100 result against a target (7e success grades).
+// Returns { grade, label, color }
+function gradeResult(result, target) {
+  if (target === null || target === undefined) {
+    return { grade: 'roll', label: 'Roll', color: 'var(--text-dim)' };
+  }
+  if (result === 1) return { grade: 'critical', label: 'Critical Success', color: 'var(--gold)' };
+  if (result === 100) return { grade: 'fumble', label: 'Fumble', color: 'var(--red)' };
+  const fumbleThreshold = target < 50 ? 96 : 100;
+  if (result >= fumbleThreshold) {
+    return { grade: 'fumble', label: 'Fumble', color: 'var(--red)' };
+  }
+  if (result <= Math.floor(target / 5)) return { grade: 'extreme', label: 'Extreme Success', color: 'var(--purple)' };
+  if (result <= Math.floor(target / 2)) return { grade: 'hard', label: 'Hard Success', color: 'var(--blue)' };
+  if (result <= target) return { grade: 'success', label: 'Regular Success', color: 'var(--green)' };
+  return { grade: 'fail', label: 'Failure', color: 'var(--text-faint)' };
+}
+
+// Random integer in [min, max] inclusive.
+function randInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function pick(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function clamp(value, min, max) {
+  return Math.max(min, Math.min(max, value));
+}
+
+return { rollDie, rollDice, rollD100, rollD100WithPenalty, gradeResult, randInt, pick, clamp };
+})();
+
+__mods["js/data/skills.js"] = (function() {
+// Call of Cthulhu 7th edition skill list.
+// `base` is the default skill value. Special bases can be a function key
+// like "dex/2" or "edu" resolved against character characteristics.
+
+const SKILL_TAGS = [
+  { id: 'all', label: 'All' },
+  { id: 'combat', label: 'Combat' },
+  { id: 'social', label: 'Social' },
+  { id: 'investigation', label: 'Investigation' },
+  { id: 'knowledge', label: 'Knowledge' },
+  { id: 'science', label: 'Science' },
+  { id: 'movement', label: 'Movement' },
+];
+
+const SKILLS = [
+  { id: 'accounting', name: 'Accounting', base: 5, tags: ['knowledge'] },
+  { id: 'anthropology', name: 'Anthropology', base: 1, tags: ['knowledge'] },
+  { id: 'appraise', name: 'Appraise', base: 5, tags: ['knowledge'] },
+  { id: 'archaeology', name: 'Archaeology', base: 1, tags: ['knowledge'] },
+  { id: 'art_craft', name: 'Art/Craft', base: 5, tags: ['knowledge'] },
+  { id: 'charm', name: 'Charm', base: 15, tags: ['social'] },
+  { id: 'climb', name: 'Climb', base: 20, tags: ['movement'] },
+  { id: 'credit_rating', name: 'Credit Rating', base: 0, tags: ['social'] },
+  { id: 'cthulhu_mythos', name: 'Cthulhu Mythos', base: 0, tags: ['knowledge'] },
+  { id: 'disguise', name: 'Disguise', base: 5, tags: ['social'] },
+  { id: 'dodge', name: 'Dodge', base: 'dex/2', tags: ['combat'] },
+  { id: 'drive_auto', name: 'Drive Auto', base: 20, tags: ['movement'] },
+  { id: 'electric_repair', name: 'Electric Repair', base: 10, tags: ['science'] },
+  { id: 'fast_talk', name: 'Fast Talk', base: 5, tags: ['social'] },
+  { id: 'fighting_brawl', name: 'Fighting (Brawl)', base: 25, tags: ['combat'] },
+  { id: 'firearms_handgun', name: 'Firearms (Handgun)', base: 20, tags: ['combat'] },
+  { id: 'firearms_rifle', name: 'Firearms (Rifle/Shotgun)', base: 25, tags: ['combat'] },
+  { id: 'first_aid', name: 'First Aid', base: 30, tags: ['science'] },
+  { id: 'history', name: 'History', base: 5, tags: ['knowledge'] },
+  { id: 'intimidate', name: 'Intimidate', base: 15, tags: ['social'] },
+  { id: 'jump', name: 'Jump', base: 20, tags: ['movement'] },
+  { id: 'language_other', name: 'Language (Other)', base: 1, tags: ['knowledge'] },
+  { id: 'language_own', name: 'Language (Own)', base: 'edu', tags: ['knowledge'] },
+  { id: 'law', name: 'Law', base: 5, tags: ['knowledge'] },
+  { id: 'library_use', name: 'Library Use', base: 20, tags: ['investigation'] },
+  { id: 'listen', name: 'Listen', base: 20, tags: ['investigation'] },
+  { id: 'locksmith', name: 'Locksmith', base: 1, tags: ['investigation'] },
+  { id: 'mechanical_repair', name: 'Mechanical Repair', base: 10, tags: ['science'] },
+  { id: 'medicine', name: 'Medicine', base: 1, tags: ['science'] },
+  { id: 'natural_world', name: 'Natural World', base: 10, tags: ['science'] },
+  { id: 'navigate', name: 'Navigate', base: 10, tags: ['knowledge'] },
+  { id: 'occult', name: 'Occult', base: 5, tags: ['knowledge'] },
+  { id: 'operate_heavy_machinery', name: 'Operate Heavy Machinery', base: 1, tags: ['movement'] },
+  { id: 'persuade', name: 'Persuade', base: 10, tags: ['social'] },
+  { id: 'pilot', name: 'Pilot', base: 1, tags: ['movement'] },
+  { id: 'psychology', name: 'Psychology', base: 10, tags: ['investigation'] },
+  { id: 'psychoanalysis', name: 'Psychoanalysis', base: 1, tags: ['investigation'] },
+  { id: 'ride', name: 'Ride', base: 5, tags: ['movement'] },
+  { id: 'science', name: 'Science', base: 1, tags: ['science'] },
+  { id: 'sleight_of_hand', name: 'Sleight of Hand', base: 10, tags: ['investigation'] },
+  { id: 'spot_hidden', name: 'Spot Hidden', base: 25, tags: ['investigation'] },
+  { id: 'stealth', name: 'Stealth', base: 20, tags: ['investigation'] },
+  { id: 'survival', name: 'Survival', base: 10, tags: ['knowledge'] },
+  { id: 'swim', name: 'Swim', base: 20, tags: ['movement'] },
+  { id: 'throw', name: 'Throw', base: 20, tags: ['combat'] },
+  { id: 'track', name: 'Track', base: 10, tags: ['investigation'] },
+];
+
+// Resolve a skill's base value given a character's characteristics.
+function resolveBase(base, characteristics) {
+  if (typeof base === 'number') return base;
+  if (base === 'dex/2') return Math.floor((characteristics.DEX || 0) / 2);
+  if (base === 'edu') return characteristics.EDU || 0;
+  return 0;
+}
+
+function getSkill(id) {
+  return SKILLS.find((s) => s.id === id);
+}
+
+return { resolveBase, getSkill, SKILL_TAGS, SKILLS };
+})();
+
+__mods["js/data/occupations.js"] = (function() {
+// Call of Cthulhu 7th edition occupations with recommended skills and
+// credit rating ranges. Used by the quick generator.
+
+const OCCUPATIONS = [
+  {
+    name: 'Antiquarian',
+    skills: ['appraise', 'art_craft', 'history', 'library_use', 'occult', 'language_other', 'spot_hidden', 'persuade'],
+    credit: [30, 70],
+  },
+  {
+    name: 'Author',
+    skills: ['art_craft', 'history', 'library_use', 'psychology', 'language_own', 'language_other', 'occult', 'persuade'],
+    credit: [9, 30],
+  },
+  {
+    name: 'Criminal',
+    skills: ['disguise', 'fast_talk', 'locksmith', 'sleight_of_hand', 'stealth', 'spot_hidden', 'intimidate', 'fighting_brawl'],
+    credit: [5, 65],
+  },
+  {
+    name: 'Detective',
+    skills: ['spot_hidden', 'psychology', 'law', 'library_use', 'fast_talk', 'stealth', 'firearms_handgun', 'intimidate'],
+    credit: [20, 45],
+  },
+  {
+    name: 'Doctor of Medicine',
+    skills: ['first_aid', 'medicine', 'psychology', 'science', 'spot_hidden', 'persuade', 'library_use', 'language_other'],
+    credit: [30, 80],
+  },
+  {
+    name: 'Journalist',
+    skills: ['library_use', 'spot_hidden', 'psychology', 'fast_talk', 'persuade', 'history', 'language_own', 'art_craft'],
+    credit: [9, 30],
+  },
+  {
+    name: 'Librarian',
+    skills: ['library_use', 'accounting', 'history', 'language_own', 'language_other', 'spot_hidden', 'appraise', 'psychology'],
+    credit: [9, 35],
+  },
+  {
+    name: 'Occultist',
+    skills: ['occult', 'history', 'library_use', 'language_other', 'anthropology', 'psychology', 'cthulhu_mythos', 'persuade'],
+    credit: [9, 65],
+  },
+  {
+    name: 'Police Detective',
+    skills: ['firearms_handgun', 'spot_hidden', 'psychology', 'law', 'intimidate', 'fast_talk', 'fighting_brawl', 'drive_auto'],
+    credit: [20, 50],
+  },
+  {
+    name: 'Private Investigator',
+    skills: ['spot_hidden', 'psychology', 'law', 'firearms_handgun', 'stealth', 'sleight_of_hand', 'fast_talk', 'locksmith'],
+    credit: [9, 30],
+  },
+  {
+    name: 'Professor',
+    skills: ['library_use', 'history', 'anthropology', 'archaeology', 'science', 'language_other', 'language_own', 'psychology'],
+    credit: [20, 70],
+  },
+  {
+    name: 'Soldier',
+    skills: ['fighting_brawl', 'firearms_handgun', 'firearms_rifle', 'first_aid', 'throw', 'stealth', 'survival', 'climb'],
+    credit: [9, 30],
+  },
+  {
+    name: 'Archaeologist',
+    skills: ['archaeology', 'anthropology', 'history', 'library_use', 'navigate', 'language_other', 'spot_hidden', 'appraise'],
+    credit: [10, 40],
+  },
+  {
+    name: 'Engineer',
+    skills: ['mechanical_repair', 'electric_repair', 'science', 'operate_heavy_machinery', 'library_use', 'navigate', 'spot_hidden', 'persuade'],
+    credit: [30, 60],
+  },
+  {
+    name: 'Dilettante',
+    skills: ['charm', 'credit_rating', 'fast_talk', 'language_other', 'ride', 'art_craft', 'persuade', 'psychology'],
+    credit: [50, 99],
+  },
+  {
+    name: 'Gangster',
+    skills: ['fighting_brawl', 'firearms_handgun', 'intimidate', 'fast_talk', 'drive_auto', 'stealth', 'spot_hidden', 'locksmith'],
+    credit: [5, 60],
+  },
+  {
+    name: 'Nurse',
+    skills: ['first_aid', 'medicine', 'psychology', 'science', 'persuade', 'listen', 'spot_hidden', 'library_use'],
+    credit: [9, 20],
+  },
+  {
+    name: 'Scientist',
+    skills: ['science', 'library_use', 'medicine', 'natural_world', 'spot_hidden', 'persuade', 'psychology', 'language_other'],
+    credit: [9, 50],
+  },
+  {
+    name: 'Artist',
+    skills: ['art_craft', 'persuade', 'psychology', 'spot_hidden', 'history', 'fast_talk', 'appraise', 'library_use'],
+    credit: [9, 50],
+  },
+  {
+    name: 'Musician',
+    skills: ['art_craft', 'persuade', 'psychology', 'charm', 'listen', 'fast_talk', 'spot_hidden', 'history'],
+    credit: [9, 30],
+  },
+  {
+    name: 'Parapsychologist',
+    skills: ['psychology', 'psychoanalysis', 'science', 'occult', 'library_use', 'persuade', 'listen', 'anthropology'],
+    credit: [9, 40],
+  },
+  {
+    name: 'Clergy',
+    skills: ['persuade', 'psychology', 'listen', 'library_use', 'history', 'occult', 'language_other', 'charm'],
+    credit: [9, 30],
+  },
+  {
+    name: 'Farmer',
+    skills: ['natural_world', 'survival', 'operate_heavy_machinery', 'mechanical_repair', 'track', 'throw', 'ride', 'climb'],
+    credit: [9, 20],
+  },
+  {
+    name: 'Sailor',
+    skills: ['navigate', 'climb', 'swim', 'pilot', 'mechanical_repair', 'natural_world', 'spot_hidden', 'first_aid'],
+    credit: [9, 30],
+  },
+  {
+    name: 'Pilot',
+    skills: ['pilot', 'navigate', 'mechanical_repair', 'electric_repair', 'spot_hidden', 'survival', 'science', 'listen'],
+    credit: [20, 70],
+  },
+];
+
+return { OCCUPATIONS };
+})();
+
+__mods["js/data/names.js"] = (function() {
+// Name pools for the quick generator. Classic 1920s-flavored names.
+
+const FIRST_NAMES_MALE = [
+  'Arthur', 'Charles', 'Edward', 'George', 'Harold', 'Henry', 'James', 'John',
+  'Joseph', 'Leonard', 'Oliver', 'Raymond', 'Robert', 'Thomas', 'Walter',
+  'William', 'Frank', 'Ernest', 'Clarence', 'Howard', 'Albert', 'Samuel',
+  'Theodore', 'Edgar', 'Frederick', 'Harry', 'Alfred', 'Marcus', 'Victor', 'Louis',
+];
+
+const FIRST_NAMES_FEMALE = [
+  'Agnes', 'Alice', 'Beatrice', 'Charlotte', 'Clara', 'Dorothy', 'Edith', 'Eleanor',
+  'Elizabeth', 'Evelyn', 'Florence', 'Grace', 'Helen', 'Irene', 'Margaret', 'Mary',
+  'Mildred', 'Nellie', 'Ruth', 'Virginia', 'Winifred', 'Rose', 'Gertrude', 'Lucille',
+  'Mabel', 'Pearl', 'Marion', 'Esther', 'Hazel', 'Catherine',
+];
+
+const LAST_NAMES = [
+  'Abbott', 'Baldwin', 'Baxter', 'Bennett', 'Blackwood', 'Carter', 'Chandler',
+  'Clarke', 'Crane', 'Crawford', 'Davenport', 'Dunham', 'Fitzgerald', 'Foster',
+  'Gallagher', 'Harrington', 'Hawthorne', 'Henderson', 'Holloway', 'Ingram',
+  'Kingsley', 'Langford', 'Larkin', 'Lockhart', 'Mallory', 'Mercer', 'Montgomery',
+  'Nash', 'Osborne', 'Pembroke', 'Quinn', 'Radcliffe', 'Sawyer', 'Sinclair',
+  'Sterling', 'Thatcher', 'Underwood', 'Vaughn', 'Warren', 'Whitmore', 'Winters',
+  'Ashworth', 'Barrett', 'Carmichael', 'Donovan', 'Everett', 'Fenwick', 'Grayson',
+];
+
+const SEXES = ['Male', 'Female'];
+
+const PLACES = [
+  'Arkham, MA', 'Boston, MA', 'Providence, RI', 'New York, NY', 'Salem, MA',
+  'Kingsport, MA', 'New Orleans, LA', 'London, England', 'Innsmouth, MA',
+  'Dunwich, MA', 'Chicago, IL', 'San Francisco, CA',
+];
+
+const ORIGINS = [
+  'American', 'English', 'Irish', 'Scottish', 'Welsh', 'French', 'German',
+  'Italian', 'Scandinavian', 'Polish', 'Russian', 'Canadian',
+];
+
+return { FIRST_NAMES_MALE, FIRST_NAMES_FEMALE, LAST_NAMES, SEXES, PLACES, ORIGINS };
+})();
+
+__mods["js/core/generator.js"] = (function() {
+const { rollDice, randInt, pick } = __mods['js/core/dice.js'];
+const { SKILLS, resolveBase } = __mods['js/data/skills.js'];
+const { OCCUPATIONS } = __mods['js/data/occupations.js'];
+const { FIRST_NAMES_MALE, FIRST_NAMES_FEMALE, LAST_NAMES, SEXES, PLACES, ORIGINS } = __mods['js/data/names.js'];
+// Full character generator for Call of Cthulhu 7th edition.
+
+
+
+
+
+function newId() {
+  return 'c' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+}
+
+// Roll characteristics. Returns { STR, CON, SIZ, DEX, APP, INT, POW, EDU, LUCK }.
+function rollCharacteristics() {
+  const roll3d6 = () => rollDice(3, 6).total * 5;
+  const roll2d6p6 = () => (rollDice(2, 6).total + 6) * 5;
+  return {
+    STR: roll3d6(),
+    CON: roll3d6(),
+    SIZ: roll2d6p6(),
+    DEX: roll3d6(),
+    APP: roll3d6(),
+    INT: roll2d6p6(),
+    POW: roll3d6(),
+    EDU: roll2d6p6(),
+    LUCK: roll3d6(),
+  };
+}
+
+// Damage bonus / build from STR + SIZ.
+function damageBonusBuild(strSiz) {
+  const t = strSiz;
+  if (t <= 64) return { damageBonus: '-2', build: -2 };
+  if (t <= 84) return { damageBonus: '-1', build: -1 };
+  if (t <= 124) return { damageBonus: '0', build: 0 };
+  if (t <= 164) return { damageBonus: '+1D4', build: 1 };
+  if (t <= 204) return { damageBonus: '+1D6', build: 2 };
+  if (t <= 284) return { damageBonus: '+2D6', build: 3 };
+  if (t <= 364) return { damageBonus: '+3D6', build: 4 };
+  if (t <= 444) return { damageBonus: '+4D6', build: 5 };
+  return { damageBonus: '+5D6', build: 6 };
+}
+
+function moveRate(str, siz, dex) {
+  if (str < siz && dex < siz) return 7;
+  if (str > siz && dex > siz) return 9;
+  return 8;
+}
+
+// Derive all secondary values from characteristics.
+function deriveFromCharacteristics(c) {
+  const hp = Math.floor((c.CON + c.SIZ) / 10);
+  const mp = Math.floor(c.POW / 5);
+  const san = c.POW;
+  const dodge = Math.floor(c.DEX / 2);
+  const { damageBonus, build } = damageBonusBuild(c.STR + c.SIZ);
+  const move = moveRate(c.STR, c.SIZ, c.DEX);
+  return {
+    hp, mp, san, luck: c.LUCK, dodge, damageBonus, build, move,
+  };
+}
+
+// Build the skill map with occupation + personal interest points distributed.
+function buildSkills(characteristics, occupation) {
+  const skills = {};
+  for (const s of SKILLS) skills[s.id] = resolveBase(s.base, characteristics);
+
+  const occ = OCCUPATIONS.find((o) => o.name === occupation) || pick(OCCUPATIONS);
+  const occSkills = occ.skills.filter((id) => id in skills);
+  const otherSkills = SKILLS.map((s) => s.id).filter(
+    (id) => !occ.skills.includes(id) && id !== 'cthulhu_mythos' && id !== 'credit_rating',
+  );
+
+  const occPoints = characteristics.EDU * 4;
+  const personalPoints = characteristics.INT * 2;
+
+  const bump = {};
+  const occPool = occSkills;
+  // Occupation skills
+  let remaining = occPoints;
+  const per = Math.floor(remaining / occPool.length);
+  for (const id of occPool) {
+    const add = Math.min(per, remaining);
+    bump[id] = (bump[id] || 0) + add;
+    remaining -= add;
+  }
+  while (remaining > 0) {
+    const id = pick(occPool);
+    bump[id] = (bump[id] || 0) + 1;
+    remaining -= 1;
+  }
+
+  // Personal interest: pick ~4 random skills
+  const interestCount = 4;
+  const chosen = [];
+  const shuffled = [...otherSkills].sort(() => Math.random() - 0.5);
+  for (let i = 0; i < Math.min(interestCount, shuffled.length); i++) chosen.push(shuffled[i]);
+  remaining = personalPoints;
+  const per2 = Math.floor(remaining / chosen.length);
+  for (const id of chosen) {
+    const add = Math.min(per2, remaining);
+    bump[id] = (bump[id] || 0) + add;
+    remaining -= add;
+  }
+  while (remaining > 0) {
+    const id = pick(chosen);
+    bump[id] = (bump[id] || 0) + 1;
+    remaining -= 1;
+  }
+
+  for (const id in bump) skills[id] += bump[id];
+
+  // Credit rating within occupation range
+  const credit = randInt(occ.credit[0], occ.credit[1]);
+  skills.credit_rating = Math.max(skills.credit_rating, credit);
+
+  return { skills, occupation: occ.name };
+}
+
+// Generate a complete character object.
+function generateCharacter(opts = {}) {
+  const sex = opts.sex || pick(SEXES);
+  const firstName = pick(sex === 'Female' ? FIRST_NAMES_FEMALE : FIRST_NAMES_MALE);
+  const lastName = pick(LAST_NAMES);
+  const age = opts.age || randInt(20, 39);
+
+  const characteristics = rollCharacteristics();
+  const derived = deriveFromCharacteristics(characteristics);
+  const occupation = opts.occupation || pick(OCCUPATIONS).name;
+  const { skills } = buildSkills(characteristics, occupation);
+
+  return {
+    id: newId(),
+    name: `${firstName} ${lastName}`,
+    player: opts.player || '',
+    occupation,
+    age,
+    sex,
+    birthplace: pick(PLACES),
+    residence: pick(PLACES),
+    origin: pick(ORIGINS),
+    characteristics,
+    derived,
+    current: {
+      hp: derived.hp,
+      mp: derived.mp,
+      san: derived.san,
+      luck: derived.luck,
+    },
+    skills,
+    notes: '',
+    createdAt: Date.now(),
+    updatedAt: Date.now(),
+  };
+}
+
+// Recompute derived values and current-value clamping after manual edits.
+function recalcDerived(character) {
+  const derived = deriveFromCharacteristics(character.characteristics);
+  const prev = character.derived || {};
+  // Preserve lost HP/MP/SAN proportionally when max changes.
+  const cur = character.current || {};
+  const keepDelta = (key, prevMax, newMax) => {
+    if (!cur || cur[key] === undefined) return newMax;
+    if (prevMax === undefined || prevMax === newMax) return cur[key];
+    const lost = prevMax - cur[key];
+    return Math.max(0, newMax - lost);
+  };
+  const hpDelta = keepDelta('hp', prev.hp, derived.hp);
+  const mpDelta = keepDelta('mp', prev.mp, derived.mp);
+  const sanDelta = keepDelta('san', prev.san, derived.san);
+  const luckDelta = keepDelta('luck', prev.luck, derived.luck);
+
+  return {
+    derived,
+    current: {
+      hp: Math.min(derived.hp, hpDelta),
+      mp: Math.min(derived.mp, mpDelta),
+      san: Math.min(derived.san, sanDelta),
+      luck: Math.min(derived.luck, luckDelta),
+    },
+  };
+}
+
+return { newId, rollCharacteristics, damageBonusBuild, moveRate, deriveFromCharacteristics, buildSkills, generateCharacter, recalcDerived };
+})();
+
+__mods["js/utils.js"] = (function() {
+// Small DOM + misc utilities.
+
+function el(tag, className, text) {
+  const node = document.createElement(tag);
+  if (className) node.className = className;
+  if (text !== undefined && text !== null) node.textContent = text;
+  return node;
+}
+
+function clear(node) {
+  while (node.firstChild) node.removeChild(node.firstChild);
+  return node;
+}
+
+function escapeHtml(str) {
+  return String(str == null ? '' : str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function debounce(fn, ms) {
+  let t;
+  return (...args) => {
+    clearTimeout(t);
+    t = setTimeout(() => fn(...args), ms);
+  };
+}
+
+function halfFifth(value) {
+  return { half: Math.floor(value / 2), fifth: Math.floor(value / 5) };
+}
+
+return { el, clear, escapeHtml, debounce, halfFifth };
+})();
+
+__mods["js/ui/characterList.js"] = (function() {
+const { loadCharacters, upsertCharacter, deleteCharacter, duplicateCharacter, exportCharacters, importCharacters } = __mods['js/core/storage.js'];
+const { generateCharacter } = __mods['js/core/generator.js'];
+const { el, clear } = __mods['js/utils.js'];
+// Home view: list of saved characters + quick create/import/export.
+
+
+
+
+function renderCharacterList(app, navigate) {
+  clear(app);
+  const root = el('div', 'view-list');
+  const head = el('div', 'list-head');
+  head.appendChild(el('h1', null, 'Characters'));
+
+  const actions = el('div', 'actions');
+  const newBtn = el('button', 'btn btn--primary', '＋ Quick Generate');
+  newBtn.type = 'button';
+  newBtn.addEventListener('click', () => {
+    const c = generateCharacter();
+    upsertCharacter(c);
+    navigate('character', c.id);
+  });
+  const importBtn = el('button', 'btn', 'Import');
+  const exportBtn = el('button', 'btn', 'Export');
+  const importInput = el('input');
+  importInput.type = 'file';
+  importInput.accept = '.json,application/json';
+  importInput.style.display = 'none';
+  importBtn.addEventListener('click', () => importInput.click());
+  importInput.addEventListener('change', async () => {
+    const file = importInput.files[0];
+    if (!file) return;
+    try {
+      const res = await importCharacters(file);
+      toast(`Imported ${res.added} character${res.added === 1 ? '' : 's'}${res.skipped ? ` (${res.skipped} skipped)` : ''}`);
+      renderCharacterList(app, navigate);
+    } catch (e) {
+      toast('Import failed: ' + e.message, 'error');
+    }
+    importInput.value = '';
+  });
+  exportBtn.addEventListener('click', () => {
+    exportCharacters();
+    toast('Exported characters JSON');
+  });
+
+  actions.append(newBtn, importBtn, exportBtn, importInput);
+  head.appendChild(actions);
+  root.appendChild(head);
+
+  const characters = loadCharacters();
+  if (!characters.length) {
+    const empty = el('div', 'empty-state');
+    empty.appendChild(el('h2', null, 'No characters yet'));
+    empty.appendChild(el('p', null, 'Quick-generate a fully rolled Call of Cthulhu 7e character in one click.'));
+    const big = el('button', 'btn btn--primary', '＋ Quick Generate Character');
+    big.type = 'button';
+    big.addEventListener('click', () => {
+      const c = generateCharacter();
+      upsertCharacter(c);
+      navigate('character', c.id);
+    });
+    empty.appendChild(big);
+    root.appendChild(empty);
+    app.appendChild(root);
+    return;
+  }
+
+  const grid = el('div', 'grid-cards');
+  for (const c of characters) {
+    grid.appendChild(buildCard(c, app, navigate));
+  }
+  root.appendChild(grid);
+  app.appendChild(root);
+}
+
+function buildCard(c, app, navigate) {
+  const card = el('div', 'char-card');
+  card.addEventListener('click', (e) => {
+    if (e.target.closest('.icon-btn')) return;
+    navigate('character', c.id);
+  });
+
+  const name = el('div', 'char-card__name', c.name);
+  const meta = el('div', 'char-card__meta', `${c.occupation} · ${c.age} · ${c.sex}`);
+
+  const stats = el('div', 'char-card__stats');
+  stats.appendChild(statCell('HP', `${c.current.hp}/${c.derived.hp}`));
+  stats.appendChild(statCell('SAN', `${c.current.san}/${c.derived.san}`));
+  stats.appendChild(statCell('MP', `${c.current.mp}/${c.derived.mp}`));
+  stats.appendChild(statCell('LUCK', `${c.current.luck}`));
+
+  const actions = el('div', 'char-card__actions');
+  const dup = iconBtn('⧉', 'Duplicate', () => {
+    duplicateCharacter(c.id);
+    renderCharacterList(app, navigate);
+  });
+  const del = iconBtn('✕', 'Delete', () => {
+    confirmModal('Delete character', `Delete "${c.name}"? This cannot be undone.`, () => {
+      deleteCharacter(c.id);
+      renderCharacterList(app, navigate);
+    });
+  });
+  actions.append(dup, del);
+
+  card.append(name, meta, stats, actions);
+  return card;
+}
+
+function statCell(label, value) {
+  const cell = el('div', 'char-card__stat');
+  cell.appendChild(el('b', null, value));
+  cell.appendChild(el('span', null, label));
+  return cell;
+}
+
+function iconBtn(glyph, title, onClick) {
+  const b = el('button', 'icon-btn', glyph);
+  b.type = 'button';
+  b.title = title;
+  b.addEventListener('click', (e) => {
+    e.stopPropagation();
+    onClick();
+  });
+  return b;
+}
+
+// Shared helpers (also used elsewhere).
+function toast(message, type = 'info') {
+  const root = document.getElementById('toast-root');
+  const t = el('div', 'toast ' + (type === 'error' ? 'error' : ''), message);
+  root.appendChild(t);
+  setTimeout(() => t.remove(), 3000);
+}
+
+function confirmModal(title, message, onConfirm) {
+  const root = document.getElementById('modal-root');
+  const backdrop = el('div', 'modal-backdrop');
+  const modal = el('div', 'modal');
+  modal.appendChild(el('h2', null, title));
+  modal.appendChild(el('p', null, message));
+  const actions = el('div', 'actions');
+  const cancel = el('button', 'btn', 'Cancel');
+  cancel.type = 'button';
+  cancel.addEventListener('click', () => backdrop.remove());
+  const ok = el('button', 'btn btn--danger', 'Delete');
+  ok.type = 'button';
+  ok.addEventListener('click', () => {
+    backdrop.remove();
+    onConfirm();
+  });
+  actions.append(cancel, ok);
+  modal.appendChild(actions);
+  backdrop.appendChild(modal);
+  backdrop.addEventListener('click', (e) => {
+    if (e.target === backdrop) backdrop.remove();
+  });
+  root.appendChild(backdrop);
+}
+
+return { renderCharacterList, toast, confirmModal };
+})();
+
+__mods["js/ui/rolls.js"] = (function() {
+const { rollD100, rollD100WithPenalty, rollDice, gradeResult } = __mods['js/core/dice.js'];
+const { el, escapeHtml } = __mods['js/utils.js'];
+// Roll resolution + session roll log + rendering of roll results.
+
+
+
+const log = [];
+let logId = 0;
+
+function getLog() {
+  return log;
+}
+
+function clearLog() {
+  log.length = 0;
+}
+
+function addRoll(result) {
+  result.id = ++logId;
+  log.unshift(result);
+  if (log.length > 200) log.pop();
+  return result;
+}
+
+// d100 skill/characteristic check.
+function rollCheck(label, target, bonusDice = 0) {
+  let result, tensOptions, units;
+  if (bonusDice === 0) {
+    result = rollD100();
+    units = result % 10;
+    tensOptions = [Math.floor(result / 10)];
+  } else {
+    const r = rollD100WithPenalty(bonusDice);
+    result = r.result;
+    units = r.units;
+    tensOptions = r.tensOptions;
+  }
+  const grade = gradeResult(result, target);
+  const bonusLabel = bonusDice > 0 ? `+${bonusDice} bonus die` : bonusDice < 0 ? `${bonusDice} penalty die` : '';
+  return addRoll({
+    kind: 'check',
+    label,
+    result,
+    target,
+    bonusDice,
+    bonusLabel,
+    units,
+    tensOptions,
+    grade,
+    detail: `d100 = ${result} vs ${target}${bonusLabel ? ` (${bonusLabel})` : ''}`,
+    timestamp: Date.now(),
+  });
+}
+
+// Generic dice roll (e.g. 1D3, 2D6).
+function rollDamage(label, count, sides, bonus = 0) {
+  const { total, dice } = rollDice(count, sides);
+  const grand = total + bonus;
+  const parts = dice.join(' + ');
+  const bonusStr = bonus > 0 ? ` + ${bonus}` : '';
+  return addRoll({
+    kind: 'dice',
+    label,
+    result: grand,
+    target: null,
+    grade: { grade: 'roll', label: 'Roll', color: 'var(--text-dim)' },
+    diceDesc: `${count}D${sides}`,
+    dice,
+    bonus,
+    detail: `${count}D${sides}${bonusStr}: ${parts}${bonusStr} = ${grand}`,
+    timestamp: Date.now(),
+  });
+}
+
+function renderRollResult(result) {
+  const box = el('div', 'roll-result ' + (result.grade.grade || 'roll'));
+  const head = el('div', 'roll-result__head');
+  head.appendChild(el('span', 'roll-result__label', result.label));
+  head.appendChild(el('span', 'roll-result__grade', result.grade.label));
+  head.style.setProperty('--grade-color', result.grade.color);
+  head.querySelector('.roll-result__grade').style.color = result.grade.color;
+
+  const detail = el('div', 'roll-result__detail');
+  detail.innerHTML = escapeHtml(result.detail);
+
+  box.appendChild(head);
+  box.appendChild(detail);
+
+  if (result.kind === 'check' && result.bonusDice !== 0 && result.tensOptions) {
+    const diceLine = el('div', 'roll-result__dice');
+    diceLine.innerHTML = `tens dice: [${result.tensOptions.map((t) => escapeHtml(String(t))).join(', ')}] units: ${result.units}`;
+    box.appendChild(diceLine);
+  }
+
+  return box;
+}
+
+function renderRollLog(container) {
+  container.textContent = '';
+  if (!log.length) {
+    container.appendChild(el('div', 'text-dim', 'No rolls yet. Click any stat or skill to roll.'));
+    return;
+  }
+  for (const r of log) {
+    container.appendChild(renderRollResult(r));
+  }
+}
+
+return { getLog, clearLog, addRoll, rollCheck, rollDamage, renderRollResult, renderRollLog };
+})();
+
+__mods["js/ui/characterSheet.js"] = (function() {
+const { getCharacter, upsertCharacter, deleteCharacter, duplicateCharacter } = __mods['js/core/storage.js'];
+const { recalcDerived } = __mods['js/core/generator.js'];
+const { SKILLS, SKILL_TAGS, resolveBase } = __mods['js/data/skills.js'];
+const { OCCUPATIONS } = __mods['js/data/occupations.js'];
+const { el, clear, halfFifth } = __mods['js/utils.js'];
+const { rollCheck, rollDamage, clearLog, renderRollLog } = __mods['js/ui/rolls.js'];
+const { toast, confirmModal } = __mods['js/ui/characterList.js'];
+// Character sheet view: editable sheet + searchable roll panel.
+
+
+
+
+
+
+
+
+const CHAR_ORDER = ['STR', 'CON', 'SIZ', 'DEX', 'APP', 'INT', 'POW', 'EDU', 'LUCK'];
+
+const state = {
+  character: null,
+  search: '',
+  tag: 'all',
+  bonus: 0,
+  refs: {},
+};
+
+function renderCharacterSheet(app, navigate, id) {
+  const character = getCharacter(id);
+  if (!character) {
+    navigate('home');
+    return;
+  }
+  state.character = character;
+  state.search = '';
+  state.tag = 'all';
+  state.bonus = 0;
+  clearLog();
+  clear(app);
+
+  const root = el('div', 'view-sheet');
+  root.appendChild(buildToolbar(app, navigate));
+  const split = el('div', 'split');
+  split.appendChild(buildLeftColumn());
+  split.appendChild(buildRightColumn());
+  root.appendChild(split);
+  app.appendChild(root);
+}
+
+// ---------- Toolbar ----------
+function buildToolbar(app, navigate) {
+  const bar = el('div', 'sheet-toolbar');
+  const back = el('button', 'btn btn--ghost back', '← Characters');
+  back.type = 'button';
+  back.addEventListener('click', () => navigate('home'));
+  bar.appendChild(back);
+
+  const nameInput = el('input', 'sheet-title');
+  nameInput.value = state.character.name;
+  nameInput.addEventListener('change', () => {
+    state.character.name = nameInput.value.trim() || 'Unnamed';
+    save();
+  });
+  state.refs.nameInput = nameInput;
+  bar.appendChild(nameInput);
+
+  const saveBadge = el('span', 'text-dim', '');
+  state.refs.saveBadge = saveBadge;
+  bar.appendChild(saveBadge);
+
+  const dup = el('button', 'btn', 'Duplicate');
+  dup.type = 'button';
+  dup.addEventListener('click', () => {
+    const copy = duplicateCharacter(state.character.id);
+    if (copy) {
+      toast('Duplicated character');
+      navigate('character', copy.id);
+    }
+  });
+  const del = el('button', 'btn btn--danger', 'Delete');
+  del.type = 'button';
+  del.addEventListener('click', () => {
+    confirmModal('Delete character', `Delete "${state.character.name}"?`, () => {
+      deleteCharacter(state.character.id);
+      navigate('home');
+    });
+  });
+  bar.append(dup, del);
+  return bar;
+}
+
+// ---------- Left column ----------
+function buildLeftColumn() {
+  const col = el('div', 'col');
+  col.appendChild(buildIdentityPanel());
+  col.appendChild(buildCharacteristicsPanel());
+  col.appendChild(buildDerivedPanel());
+  col.appendChild(buildTrackingPanel());
+  col.appendChild(buildNotesPanel());
+  return col;
+}
+
+function buildIdentityPanel() {
+  const panel = el('div', 'panel');
+  panel.appendChild(el('h3', 'sheet-section-title', 'Identity'));
+  const grid = el('div', 'identity-grid');
+  const c = state.character;
+
+  grid.appendChild(field('Player', textInput(c.player, (v) => { c.player = v; save(); })));
+  grid.appendChild(field('Occupation', selectInput(
+    OCCUPATIONS.map((o) => o.name), c.occupation, (v) => { c.occupation = v; save(); },
+  )));
+  grid.appendChild(field('Age', numberInput(c.age, (v) => { c.age = v; save(); })));
+  grid.appendChild(field('Sex', selectInput(['Male', 'Female', 'Other'], c.sex, (v) => { c.sex = v; save(); })));
+  const origin = field('Origin', textInput(c.origin, (v) => { c.origin = v; save(); }));
+  const residence = field('Residence', textInput(c.residence, (v) => { c.residence = v; save(); }));
+  const birthplace = field('Birthplace', textInput(c.birthplace, (v) => { c.birthplace = v; save(); }));
+  origin.classList.add('full');
+  grid.append(origin, residence, birthplace);
+
+  panel.appendChild(grid);
+  return panel;
+}
+
+function buildCharacteristicsPanel() {
+  const panel = el('div', 'panel');
+  panel.appendChild(el('h3', 'sheet-section-title', 'Characteristics'));
+  const grid = el('div', 'stat-grid');
+  state.refs.charGrid = grid;
+  for (const key of CHAR_ORDER) {
+    grid.appendChild(buildCharBox(key));
+  }
+  panel.appendChild(grid);
+  return panel;
+}
+
+function buildCharBox(key) {
+  const c = state.character;
+  const val = c.characteristics[key];
+  const box = el('div', 'stat-box');
+  box.title = 'Click to roll ' + key;
+
+  const label = el('div', 'stat-box__label', key);
+  const input = el('input', 'stat-box__value-input');
+  input.type = 'number';
+  input.value = val;
+  input.addEventListener('click', (e) => e.stopPropagation());
+  input.addEventListener('change', () => {
+    c.characteristics[key] = clampInt(input.value, 0, 999);
+    applyRecalc();
+  });
+
+  const { half, fifth } = halfFifth(val);
+  const sub = el('div', 'stat-box__half', `½ ${half} · ⅕ ${fifth}`);
+
+  box.appendChild(label);
+  box.appendChild(input);
+  box.appendChild(sub);
+  box.addEventListener('click', () => {
+    rollCheck(key, c.characteristics[key], state.bonus);
+    refreshRollLog();
+  });
+  return box;
+}
+
+function buildDerivedPanel() {
+  const panel = el('div', 'panel');
+  panel.appendChild(el('h3', 'sheet-section-title', 'Derived Values'));
+  const grid = el('div', 'derived-grid');
+  state.refs.derivedGrid = grid;
+  appendDerived(grid);
+  panel.appendChild(grid);
+  return panel;
+}
+
+function appendDerived(grid) {
+  clear(grid);
+  const c = state.character;
+  const d = c.derived;
+  const items = [
+    { label: 'Hit Points', value: d.hp, sub: null, roll: false },
+    { label: 'Magic Points', value: d.mp, sub: null, roll: false },
+    { label: 'Sanity', value: d.san, sub: null, roll: false },
+    { label: 'Luck', value: d.luck, sub: null, roll: 'luck' },
+    { label: 'Dodge', value: d.dodge, sub: null, roll: 'dodge' },
+    { label: 'Damage Bonus', value: d.damageBonus, sub: null, roll: false },
+    { label: 'Build', value: d.build, sub: null, roll: false },
+    { label: 'Move Rate', value: d.move, sub: 'yards', roll: false },
+  ];
+  for (const it of items) {
+    const box = el('div', 'derived-box');
+    box.appendChild(el('div', 'derived-box__label', it.label));
+    const val = el('div', 'derived-box__value', String(it.value));
+    if (it.sub) val.appendChild(el('span', 'derived-box__sub', ' ' + it.sub));
+    box.appendChild(val);
+    if (it.roll) {
+      box.title = 'Click to roll ' + it.label;
+      box.style.cursor = 'pointer';
+      box.addEventListener('click', () => {
+        const target = it.roll === 'luck' ? state.character.current.luck : d.dodge;
+        rollCheck(it.label, target, state.bonus);
+        refreshRollLog();
+      });
+    }
+    grid.appendChild(box);
+  }
+}
+
+function buildTrackingPanel() {
+  const panel = el('div', 'panel');
+  panel.appendChild(el('h3', 'sheet-section-title', 'Tracking'));
+  const rows = el('div');
+  state.refs.trackRows = rows;
+  appendTracking(rows);
+  panel.appendChild(rows);
+  return panel;
+}
+
+function appendTracking(rows) {
+  clear(rows);
+  const c = state.character;
+  const resources = [
+    { key: 'hp', label: 'Hit Points', max: c.derived.hp },
+    { key: 'mp', label: 'Magic Points', max: c.derived.mp },
+    { key: 'san', label: 'Sanity', max: c.derived.san },
+    { key: 'luck', label: 'Luck', max: c.derived.luck },
+  ];
+  for (const r of resources) {
+    const cur = c.current[r.key];
+    const row = el('div', 'track-row');
+    const label = el('div', 'track-row__label');
+    label.textContent = r.label;
+    label.appendChild(el('small', null, ` / ${r.max}`));
+    row.appendChild(label);
+
+    const controls = el('div', 'track-controls');
+    const minus = el('button', 'icon-btn', '−');
+    minus.type = 'button';
+    minus.title = 'Decrease';
+    minus.addEventListener('click', () => {
+      c.current[r.key] = Math.max(0, c.current[r.key] - 1);
+      updateTrackingValue(row, r.key);
+      save();
+    });
+    const value = el('span', 'track-value', String(cur));
+    value.classList.toggle('low', cur <= Math.floor(r.max / 4) && cur > 0);
+    value.classList.toggle('zero', cur === 0);
+    const plus = el('button', 'icon-btn', '＋');
+    plus.type = 'button';
+    plus.title = 'Increase';
+    plus.addEventListener('click', () => {
+      c.current[r.key] = Math.min(r.max, c.current[r.key] + 1);
+      updateTrackingValue(row, r.key);
+      save();
+    });
+    const reset = el('button', 'icon-btn', '↺');
+    reset.type = 'button';
+    reset.title = 'Reset to max';
+    reset.addEventListener('click', () => {
+      c.current[r.key] = r.max;
+      updateTrackingValue(row, r.key);
+      save();
+    });
+    controls.append(minus, value, plus, reset);
+    row.appendChild(controls);
+    rows.appendChild(row);
+  }
+}
+
+function updateTrackingValue(row, key) {
+  const c = state.character;
+  const r = resourcesOf(c).find((x) => x.key === key);
+  const value = row.querySelector('.track-value');
+  value.textContent = String(c.current[key]);
+  value.classList.toggle('low', c.current[key] <= Math.floor(r.max / 4) && c.current[key] > 0);
+  value.classList.toggle('zero', c.current[key] === 0);
+}
+
+function resourcesOf(c) {
+  return [
+    { key: 'hp', label: 'Hit Points', max: c.derived.hp },
+    { key: 'mp', label: 'Magic Points', max: c.derived.mp },
+    { key: 'san', label: 'Sanity', max: c.derived.san },
+    { key: 'luck', label: 'Luck', max: c.derived.luck },
+  ];
+}
+
+function buildNotesPanel() {
+  const panel = el('div', 'panel');
+  panel.appendChild(el('h3', 'sheet-section-title', 'Notes'));
+  const ta = el('textarea');
+  ta.rows = 4;
+  ta.value = state.character.notes || '';
+  ta.placeholder = 'Background, gear, injuries, story notes…';
+  ta.addEventListener('change', () => {
+    state.character.notes = ta.value;
+    save();
+  });
+  panel.appendChild(ta);
+  return panel;
+}
+
+// ---------- Right column: roll panel ----------
+function buildRightColumn() {
+  const col = el('div', 'col');
+  const panel = el('div', 'panel roll-panel');
+  panel.appendChild(el('h3', 'sheet-section-title', 'Roll Anything'));
+
+  const search = el('input', 'search-input');
+  search.type = 'text';
+  search.placeholder = 'Search stats & skills…';
+  search.addEventListener('input', () => {
+    state.search = search.value.toLowerCase();
+    refreshRollItems();
+  });
+  panel.appendChild(search);
+
+  const tagRow = el('div', 'tag-row');
+  const tags = [
+    { id: 'all', label: 'All' },
+    { id: 'characteristics', label: 'Characteristics' },
+    { id: 'derived', label: 'Derived' },
+    ...SKILL_TAGS.filter((t) => t.id !== 'all'),
+  ];
+  state.refs.tagRow = tagRow;
+  for (const t of tags) {
+    const tagBtn = el('button', 'tag' + (state.tag === t.id ? ' active' : ''), t.label);
+    tagBtn.type = 'button';
+    tagBtn.dataset.tag = t.id;
+    tagBtn.addEventListener('click', () => {
+      state.tag = t.id;
+      refreshTagRow();
+      refreshRollItems();
+    });
+    tagRow.appendChild(tagBtn);
+  }
+  panel.appendChild(tagRow);
+
+  const bonusRow = el('div', 'row');
+  bonusRow.appendChild(el('span', 'text-dim', 'Bonus/Penalty:'));
+  const bonusSelect = el('select');
+  bonusSelect.innerHTML = `
+    <option value="0">None</option>
+    <option value="1">+1 Bonus die</option>
+    <option value="2">+2 Bonus dice</option>
+    <option value="-1">-1 Penalty die</option>
+    <option value="-2">-2 Penalty dice</option>`;
+  bonusSelect.value = '0';
+  bonusSelect.addEventListener('change', () => {
+    state.bonus = parseInt(bonusSelect.value, 10);
+  });
+  bonusRow.appendChild(bonusSelect);
+  panel.appendChild(bonusRow);
+
+  const list = el('div', 'skill-list');
+  state.refs.rollItems = list;
+  panel.appendChild(list);
+
+  panel.appendChild(buildDiceQuick());
+
+  const logHead = el('div', 'row');
+  logHead.appendChild(el('h4', 'sheet-section-title', 'Roll Log'));
+  const clearBtn = el('button', 'btn btn--sm btn--ghost', 'Clear');
+  clearBtn.type = 'button';
+  clearBtn.addEventListener('click', () => {
+    clearLog();
+    refreshRollLog();
+  });
+  logHead.appendChild(clearBtn);
+  panel.appendChild(logHead);
+
+  const logBox = el('div', 'roll-results');
+  state.refs.rollLog = logBox;
+  panel.appendChild(logBox);
+
+  col.appendChild(panel);
+  refreshRollItems();
+  refreshRollLog();
+  return col;
+}
+
+function buildDiceQuick() {
+  const wrap = el('div', 'panel');
+  wrap.style.background = 'var(--bg-elev)';
+  wrap.appendChild(el('div', 'text-dim', 'Quick Dice'));
+  const quick = el('div', 'dice-quick');
+  const presets = ['1D3', '1D4', '1D6', '1D8', '1D10', '1D20', '2D6', '3D6', '1D100'];
+  for (const p of presets) {
+    const b = el('button', 'btn btn--sm', p);
+    b.type = 'button';
+    b.addEventListener('click', () => {
+      const [n, s] = p.split('D').map(Number);
+      rollDamage(p, n, s);
+      refreshRollLog();
+    });
+    quick.appendChild(b);
+  }
+  wrap.appendChild(quick);
+
+  const custom = el('div', 'dice-quick mt');
+  const count = el('input');
+  count.type = 'number';
+  count.min = 1;
+  count.max = 100;
+  count.value = 1;
+  count.style.width = '52px';
+  const sides = el('input');
+  sides.type = 'number';
+  sides.min = 2;
+  sides.max = 1000;
+  sides.value = 6;
+  sides.style.width = '52px';
+  const rollBtn = el('button', 'btn btn--sm btn--primary', 'Roll');
+  rollBtn.type = 'button';
+  rollBtn.addEventListener('click', () => {
+    const n = clampInt(count.value, 1, 100);
+    const s = clampInt(sides.value, 2, 1000);
+    rollDamage(`${n}D${s}`, n, s);
+    refreshRollLog();
+  });
+  custom.append(count, el('span', 'text-dim', 'D'), sides, rollBtn);
+  wrap.appendChild(custom);
+  return wrap;
+}
+
+// ---------- Roll items list ----------
+function buildRollItems() {
+  const c = state.character;
+  const items = [];
+
+  for (const key of CHAR_ORDER) {
+    items.push({ type: 'char', id: key, name: key, value: c.characteristics[key], tags: ['characteristics'], base: null });
+  }
+  items.push({ type: 'derived', id: 'dodge', name: 'Dodge', value: c.derived.dodge, tags: ['derived'], base: null });
+  items.push({ type: 'derived', id: 'luck', name: 'Luck', value: c.current.luck, tags: ['derived'], base: null });
+
+  for (const s of SKILLS) {
+    const base = resolveBase(s.base, c.characteristics);
+    items.push({
+      type: 'skill', id: s.id, name: s.name, value: c.skills[s.id] ?? base, tags: s.tags, base,
+    });
+  }
+
+  const q = state.search.trim();
+  const filtered = items.filter((it) => {
+    if (state.tag !== 'all' && !it.tags.includes(state.tag)) return false;
+    if (q && !it.name.toLowerCase().includes(q) && !it.type.includes(q)) return false;
+    return true;
+  });
+  return { items, filtered };
+}
+
+function refreshRollItems() {
+  const container = state.refs.rollItems;
+  if (!container) return;
+  clear(container);
+  const { filtered } = buildRollItems();
+  if (!filtered.length) {
+    container.appendChild(el('div', 'text-dim', 'No matching stats or skills.'));
+    return;
+  }
+  for (const it of filtered) {
+    container.appendChild(renderRollItem(it));
+  }
+}
+
+function renderRollItem(it) {
+  const row = el('div', 'skill-row');
+  row.title = 'Click to roll';
+
+  const name = el('span', 'skill-row__name', it.name);
+  name.addEventListener('click', (e) => {
+    e.stopPropagation();
+    doRollItem(it);
+  });
+
+  const base = el('span', 'skill-row__base', it.base !== null ? String(it.base) : '');
+  base.style.minWidth = '34px';
+
+  row.appendChild(name);
+  row.appendChild(base);
+
+  if (it.type === 'skill') {
+    const input = el('input', 'skill-row__input');
+    input.type = 'number';
+    input.value = it.value;
+    input.addEventListener('click', (e) => e.stopPropagation());
+    input.addEventListener('change', () => {
+      const c = state.character;
+      c.skills[it.id] = clampInt(input.value, 0, 999);
+      save();
+      refreshRollItems();
+    });
+    row.appendChild(input);
+  } else {
+    const val = el('span', 'skill-row__value', String(it.value));
+    val.style.color = 'var(--text)';
+    row.appendChild(val);
+  }
+
+  row.addEventListener('click', () => doRollItem(it));
+  return row;
+}
+
+function doRollItem(it) {
+  const c = state.character;
+  if (it.type === 'char') {
+    rollCheck(it.name, c.characteristics[it.id], state.bonus);
+  } else if (it.type === 'derived') {
+    const target = it.id === 'luck' ? c.current.luck : c.derived.dodge;
+    rollCheck(it.name, target, state.bonus);
+  } else {
+    rollCheck(it.name, it.value, state.bonus);
+  }
+  refreshRollLog();
+}
+
+function refreshRollLog() {
+  const box = state.refs.rollLog;
+  if (box) renderRollLog(box);
+}
+
+function refreshTagRow() {
+  const row = state.refs.tagRow;
+  if (!row) return;
+  for (const b of row.querySelectorAll('.tag')) {
+    b.classList.toggle('active', b.dataset.tag === state.tag);
+  }
+}
+
+// ---------- Recalc / save ----------
+function applyRecalc() {
+  const c = state.character;
+  const { derived, current } = recalcDerived(c);
+  c.derived = derived;
+  c.current = current;
+  save();
+  // Update derived panel + tracking + char grid halves + roll items (skills bases change).
+  appendDerived(state.refs.derivedGrid);
+  appendTracking(state.refs.trackRows);
+  refreshCharGrid();
+  refreshRollItems();
+}
+
+function refreshCharGrid() {
+  const grid = state.refs.charGrid;
+  if (!grid) return;
+  clear(grid);
+  for (const key of CHAR_ORDER) grid.appendChild(buildCharBox(key));
+}
+
+let saveTimer = null;
+function save() {
+  const c = state.character;
+  if (state.refs.saveBadge) {
+    state.refs.saveBadge.textContent = 'Saving…';
+  }
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => {
+    upsertCharacter(c);
+    if (state.refs.saveBadge) {
+      state.refs.saveBadge.textContent = 'Saved';
+      setTimeout(() => {
+        if (state.refs.saveBadge) state.refs.saveBadge.textContent = '';
+      }, 1500);
+    }
+  }, 300);
+}
+
+// ---------- Helpers ----------
+function field(label, input) {
+  const f = el('div', 'field');
+  f.appendChild(el('label', null, label));
+  f.appendChild(input);
+  return f;
+}
+
+function textInput(value, onChange) {
+  const input = el('input');
+  input.type = 'text';
+  input.value = value || '';
+  input.addEventListener('change', () => onChange(input.value));
+  return input;
+}
+
+function numberInput(value, onChange) {
+  const input = el('input');
+  input.type = 'number';
+  input.value = value;
+  input.addEventListener('change', () => onChange(clampInt(input.value, 0, 999)));
+  return input;
+}
+
+function selectInput(options, value, onChange) {
+  const sel = el('select');
+  for (const o of options) {
+    const opt = el('option', null, o);
+    opt.value = o;
+    if (o === value) opt.selected = true;
+    sel.appendChild(opt);
+  }
+  sel.addEventListener('change', () => onChange(sel.value));
+  return sel;
+}
+
+function clampInt(value, min, max) {
+  const n = parseInt(value, 10);
+  if (Number.isNaN(n)) return min;
+  return Math.max(min, Math.min(max, n));
+}
+
+return { renderCharacterSheet };
+})();
+
+__mods["js/app.js"] = (function() {
+const { renderCharacterList } = __mods['js/ui/characterList.js'];
+const { renderCharacterSheet } = __mods['js/ui/characterSheet.js'];
+// Application entry point and simple hash-based router.
+
+
+
+const app = document.getElementById('app');
+
+function navigate(view, id) {
+  if (view === 'home') {
+    location.hash = '#/';
+  } else if (view === 'character' && id) {
+    location.hash = '#/character/' + id;
+  }
+}
+
+function route() {
+  const hash = location.hash || '#/';
+  const parts = hash.replace(/^#\/?/, '').split('/').filter(Boolean);
+  const navHome = document.getElementById('navHome');
+
+  if (parts[0] === 'character' && parts[1]) {
+    renderCharacterSheet(app, navigate, parts[1]);
+    if (navHome) navHome.classList.remove('active');
+  } else {
+    renderCharacterList(app, navigate);
+    if (navHome) navHome.classList.add('active');
+  }
+  window.scrollTo(0, 0);
+}
+
+document.getElementById('brandHome').addEventListener('click', () => navigate('home'));
+document.getElementById('navHome').addEventListener('click', () => navigate('home'));
+window.addEventListener('hashchange', route);
+
+route();
+
+return {};
+})();
+</script>
 </body>
 </html>

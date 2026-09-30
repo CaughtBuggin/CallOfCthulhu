@@ -1,6 +1,8 @@
 # COCOCH — Call of Cthulhu 7e Character Sheets
 
-A static, single-page web app for creating and managing *Call of Cthulhu* (7th edition) characters. Built with vanilla HTML/CSS/JS (ES modules), no build step, and designed to run on GitHub Pages.
+A static, single-page web app for creating and managing *Call of Cthulhu* (7th edition) characters. Built with vanilla HTML/CSS/JS and designed to run on GitHub Pages.
+
+`index.html` is **fully self-contained** (all CSS and JS are inlined), so it works even if you upload only that one file — no build step, no server, no external file paths to get wrong.
 
 ## Features
 
@@ -13,15 +15,13 @@ A static, single-page web app for creating and managing *Call of Cthulhu* (7th e
 
 ## Local development
 
-Because the app uses ES modules, it must be served over HTTP (opening `index.html` directly as `file://` will not work). Any static server works:
+The shipped `index.html` is self-contained, so you can just open it in a browser. The modular source lives in `css/` and `js/`; if you edit those, regenerate `index.html` with:
 
 ```bash
-npx serve .
-# or
-python -m http.server 8000
+node scripts/build.mjs
 ```
 
-Then open http://localhost:8000 (or the printed URL).
+(The build reads `scripts/template.html`, inlines `css/styles.css`, and bundles the `js/` ES modules into a single non-module script.)
 
 ## Running the generator tests
 
@@ -31,15 +31,14 @@ node scripts/test-generator.mjs
 
 ## Deploying to GitHub Pages
 
-1. Push this folder to a GitHub repository (the site lives at the repo root).
-2. In the repo, go to **Settings → Pages**.
-3. Under **Build and deployment → Source**, select **Deploy from a branch**.
-4. Choose branch **`main`** (or `master`) and folder **`/ (root)`**.
-5. Click **Save**. Your site will be published at `https://<username>.github.io/<repo>/` after a minute or two.
+The easiest option — upload a single file:
 
-> A `.nojekyll` file is included so GitHub Pages serves the files as-is.
+1. Create a new GitHub repository.
+2. **Add file → Upload files** and drop in just `index.html` (and optionally `README.md`).
+3. Go to **Settings → Pages**, under **Build and deployment → Source** select **Deploy from a branch**, then choose branch **`main`** and folder **`/ (root)`**.
+4. Click **Save**. Your app will be at `https://<username>.github.io/<repo>/`.
 
-### CLI alternative
+Or push the whole folder via git:
 
 ```bash
 git init
@@ -50,6 +49,8 @@ git remote add origin https://github.com/<username>/<repo>.git
 git push -u origin main
 ```
 
+> A `.nojekyll` file is included so GitHub Pages serves the files as-is. Because `index.html` is self-contained, the app works no matter which files end up uploaded.
+
 ## Notes
 
 - Characters are stored in your browser (`localStorage`), so they are per-browser/per-device. Use **Export** to back them up or move them between devices, and **Import** to restore.
@@ -58,8 +59,11 @@ git push -u origin main
 ## Project structure
 
 ```
-index.html            # app shell
-css/styles.css        # styles
+index.html            # self-contained app (built from source)
+scripts/template.html  # HTML template used by the build
+scripts/build.mjs      # bundles source -> index.html
+scripts/test-generator.mjs
+css/styles.css        # source styles
 js/app.js             # entry point + hash router
 js/core/dice.js       # dice + success grading
 js/core/generator.js  # character generation
@@ -67,5 +71,4 @@ js/core/storage.js    # localStorage CRUD + export/import
 js/data/              # skills, occupations, names
 js/ui/                # list view, sheet view, roll panel
 js/utils.js           # DOM helpers
-scripts/              # node test script
 ```
